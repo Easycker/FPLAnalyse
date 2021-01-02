@@ -3,15 +3,15 @@ import urllib.request
 from bs4 import BeautifulSoup
 import csv
 import pygal
-import cityinfo
+import teaminfo
 
-cityname = input("请输入城市名称：")
-if cityname in cityinfo.city:
-    citycode = cityinfo.city[cityname]
+teamname = input("请输入球队名称：")
+if teamname in teaminfo.team:
+    teamcode = teaminfo.team[teamname]
 else
     sys.exit()
 
-url = 'http://www.weather.com.cn/weather/' + citycode + '.shtml'
+url = 'http://www.weather.com.cn/weather/' + teamcode + '.shtml'
 header = ("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36")  # 设置头部信息
 http_handler = urllib.request.HTTPHandler()
 opener = urllib.request.build_opener(http_handler)  # 修改头部信息
@@ -74,7 +74,7 @@ for day in li: # 快速找到每个 li 节点
 # 将最终的获取的天气写入 csv 文件
 with open('weather.csv', 'a', errors='ignore', newline='') as f:
     f_csv = csv.writer(f)
-    f_csv.writerows([cityname])
+    f_csv.writerows([teamname])
     f_csv.writerows(final)
 
 # 使用 pygal 完成绘图，并存储为 svg 格式
@@ -87,7 +87,7 @@ bar.x_labels_major = daytimes[::30]
 # bar.show_minor_x_labels = False  # 不显示 X 轴最小刻度
 bar.x_label_rotation = 45
 
-bar.title = cityname+'未来七天气温走向图'
+bar.title = teamname+'未来七天气温走向图'
 bar.x_title = '日期'
 bar.y_title = '气温(摄氏度)'
 
